@@ -1,0 +1,14 @@
+BasedOnStyle: Google
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 120
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+BraceWrapping:
+  AfterClass: false
+  AfterFunction: true
+  AfterControlStatement: true
+PenaltyBreakBeforeFirstCallParameter: 100
+PointerAlignment: Right
