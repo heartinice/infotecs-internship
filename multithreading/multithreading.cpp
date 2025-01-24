@@ -6,8 +6,8 @@
 
 #include "../monitoring/monitoring.h"
 
-SystemMonitorManager::SystemMonitorManager(SystemMonitor& monitor, const std::string& command)
-    : monitor(monitor), running(false), mode(command) {}
+SystemMonitorManager::SystemMonitorManager(SystemMonitor& monitor, const std::string& command, LogLevel userLogLevel)
+    : monitor(monitor), running(false), mode(command), userLogLevel(userLogLevel) {}
 
 SystemMonitorManager::~SystemMonitorManager() {
     stopMonitoring();  // Остановка потоков при уничтожении объекта

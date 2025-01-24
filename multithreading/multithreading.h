@@ -12,7 +12,7 @@
 class SystemMonitorManager {
    public:
     // SystemMonitorManager(Logger& logger);
-    SystemMonitorManager(SystemMonitor& monitor, const std::string& command);
+    SystemMonitorManager(SystemMonitor& monitor, const std::string& command, LogLevel userLogLevel);
     ~SystemMonitorManager();
 
     void startMonitoring(LogLevel userLogLevel);
@@ -27,6 +27,8 @@ class SystemMonitorManager {
     std::vector<std::thread> threads;
     std::atomic<bool>        running;  // Для управления потоками
     std::string              mode;
+    LogLevel                 userLogLevel;
+
 };
 
 #endif  // MULTITHREADING_H

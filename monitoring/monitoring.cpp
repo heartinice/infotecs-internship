@@ -51,15 +51,19 @@ void SystemMonitor::monitorCPU(LogLevel userLogLevel) {
             double cpuLoad = 100.0 * (deltaTotal - deltaIdle) / deltaTotal;
             cpuLoad        = std::round(cpuLoad * 100) / 100.0;
 
+            getLoadBoundary(userLogLevel);
+
             if (loadmin <= cpuLoad && cpuLoad <= loadmax) {
-                std::cout << logger.getcurrentTime() << logger.Leveltostring(userLogLevel)
-                          << " Average CPU Load: " << cpuLoad;
+                // std::cout << logger.getcurrentTime() << logger.Leveltostring(userLogLevel)
+                //           << " Average CPU Load: " << cpuLoad;
+                std::cout <<" Average CPU Load: " << cpuLoad << "%" <<
+                "\n";
             }
 
             std::ostringstream oss;
             oss << std::fixed << std::setprecision(2) << cpuLoad;
 
-            logger.saveMessage(" Average CPU Load: " + oss.str() + "%", LogLevel::info);
+            logger.saveMessage(" Average CPU Load: " + oss.str() + "%", userLogLevel);
 
         } else {
             logger.saveMessage(" CPU Load calculation error: deltaTotal <= 0", LogLevel::error);
