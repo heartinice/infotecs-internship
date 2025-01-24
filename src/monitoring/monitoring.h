@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../logger/logger.h"
+#include <logger/logger.h>
 
 class SystemMonitor {
    public:
@@ -15,6 +15,7 @@ class SystemMonitor {
 
    private:
     Logger& logger;
+    void writeToOutputFile(const std::string& message);
 };
 
 #endif  // MONITORING_H

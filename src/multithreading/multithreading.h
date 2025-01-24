@@ -6,7 +6,7 @@
 #include <thread>
 #include <vector>
 
-#include "../logger/logger.h"
+#include <logger/logger.h>
 #include "../monitoring/monitoring.h"
 
 class SystemMonitorManager {

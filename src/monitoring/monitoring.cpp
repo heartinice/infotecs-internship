@@ -15,6 +15,13 @@ SystemMonitor::SystemMonitor(Logger& logger) : logger(logger) {}
 int loadmin;
 int loadmax;
 
+void SystemMonitor::writeToOutputFile(const std::string& message){
+    std::ofstream outFile("output_app.txt", std::ios::app); // Открытие файла для дозаписи
+    if (outFile) {
+        outFile << message << "\n"; // Записываем сообщение в файл
+    }
+}
+
 void SystemMonitor::monitorCPU(LogLevel userLogLevel) {
     static long prevIdleTime = 0, prevTotalTime = 0;  // Храним предыдущие значения для расчета
 
@@ -56,8 +63,9 @@ void SystemMonitor::monitorCPU(LogLevel userLogLevel) {
             if (loadmin <= cpuLoad && cpuLoad <= loadmax) {
                 // std::cout << logger.getcurrentTime() << logger.Leveltostring(userLogLevel)
                 //           << " Average CPU Load: " << cpuLoad;
-                std::cout <<" Average CPU Load: " << cpuLoad << "%" <<
-                "\n";
+                std::ostringstream oss;
+                oss << "Average CPU Load: " << cpuLoad << "%";
+                writeToOutputFile(oss.str()); // Сохраняем в файл
             }
 
             std::ostringstream oss;
@@ -112,8 +120,9 @@ void SystemMonitor::monitorMemory(LogLevel userLogLevel) {
 
         getLoadBoundary(userLogLevel);
         if (loadmin <= usagePercent && usagePercent <= loadmax) {
-            std::cout << " Memory Usage: " << usedGB << " GB used of " << totalGB << " GB total (" << usagePercent
-                      << "%)\n";
+            std::ostringstream message;
+            message << "Memory Usage: " << usedGB << " GB used of " << totalGB << " GB total (" << usagePercent << "%)";
+            writeToOutputFile(message.str()); // Сохраняем в файл
         }
 
         // Формируем понятное сообщение для пользователя
@@ -143,8 +152,10 @@ void SystemMonitor::monitorDisk(LogLevel userLogLevel) {
 
     getLoadBoundary(userLogLevel);
     if (loadmin <= usedPercent && usedPercent <= loadmax) {
-        std::cout << " Disk usage for root filesystem: Total space = " << totalGB << " GB, Used = " << usedGB << " GB ("
-                  << usedPercent << "%)\n";
+        std::ostringstream oss;
+        oss << "Disk usage for root filesystem: Total space = " << totalGB << " GB, Used = " << usedGB << " GB (" 
+            << usedPercent << "%)";
+        writeToOutputFile(oss.str()); // Сохраняем в файл
     }
 
     // Формирование читаемого сообщения
@@ -167,6 +178,8 @@ void SystemMonitor::getLoadBoundary(LogLevel userLogLevel) {
         loadmax = 100;
     }
 }
+
+
 
 // int main() {
 //     Logger        logger("kfjdkl.txt", "info");

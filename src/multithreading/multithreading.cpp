@@ -16,7 +16,6 @@ SystemMonitorManager::~SystemMonitorManager() {
 // Запуск мониторинга
 void SystemMonitorManager::startMonitoring(LogLevel userLogLevel) {
     if (running) {  // Если мониторинг уже запущен, ничего не делаем
-        std::cerr << "Monitoring already running!" << std::endl;
         return;
     }
 

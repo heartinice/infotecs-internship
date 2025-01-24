@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "logger/logger.h"
+#include <logger/logger.h>
 #include "monitoring/monitoring.h"
 #include "multithreading/multithreading.h"
 
@@ -12,20 +12,19 @@ int main() {
     std::cin >> filename;
     std::cout << "Enter what you want to analyze: cpu, memory, disk, or all\n";
     std::cin >> command;
-    std::cout << "Enter level for console message";
     
 
 
     Logger               logger(filename, level);
     Logger*              pLogger = &logger;
     SystemMonitor        systemMonitor(*pLogger);
-    SystemMonitorManager systemMonitorManager(systemMonitor, command, logger.translateLevel(level));
+    SystemMonitorManager systemMonitorManager(systemMonitor, command, Logger::translateLevel(level));
 
     while (true) {
-        systemMonitorManager.startMonitoring(logger.translateLevel(level));
+        systemMonitorManager.startMonitoring(Logger::translateLevel(level));
 
         // std::cout << "Enter what you want to analyze: cpu, memory, disk, or all\n";
-        std::cin >> command;
-        std::cin >> level;
+        // std::cin >> command;
+        // std::cin >> level;
     }
 }
