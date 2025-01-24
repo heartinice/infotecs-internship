@@ -25,14 +25,22 @@ void monitoringTask(SystemMonitorManager& systemMonitorManager, LogLevel logLeve
 void inputThread(Logger& logger) {
     while (running) {
         std::string command, level;
-        std::cout << "Enter what you want to analyze (cpu, memory, disk, all, or exit to stop): ";
+        std::cout << "Enter a command: (cpu) for CPU, (memory) for Memory, (disk) for Disk, (all) for everything, "
+                     "(exit) to stop, (change) to change default log level: ";
+
         std::cin >> command;
 
-        if (command == "exit") {
+        if (command == "change") {
+            std::string newDefaultLogLevel;
+            std::cout << "Write new default log level: ";
+            std::cin >> newDefaultLogLevel;
+            logger.changeLogLevel(Logger::translateLevel(newDefaultLogLevel));
+            std::cout << "Default log level was changed\n";
+        } else if (command == "exit") {
             running = false;
             break;
-        }
-        if (command != "exit" && command != "cpu" && command != "memory" && command != "disk" && command != "all") {
+        } else if (command != "exit" && command != "cpu" && command != "memory" && command != "disk" &&
+                   command != "all" && command != "change") {
             running = false;
             break;
         }
@@ -53,6 +61,7 @@ void inputThread(Logger& logger) {
             running = false;
             break;
         }
+
         SystemMonitor        systemMonitor(logger);
         SystemMonitorManager systemMonitorManager(systemMonitor, command, logLevel);
 
