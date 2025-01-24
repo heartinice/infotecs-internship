@@ -40,7 +40,6 @@ void SystemMonitorManager::startMonitoring(LogLevel userLogLevel) {
 // Остановка мониторинга
 void SystemMonitorManager::stopMonitoring() {
     if (!running) {
-        std::cerr << "No monitoring processes to stop." << std::endl;
         return;
     }
 

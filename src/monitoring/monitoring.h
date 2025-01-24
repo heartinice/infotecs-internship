@@ -12,6 +12,7 @@ class SystemMonitor {
     void monitorMemory(LogLevel userLogLevel);
     void monitorDisk(LogLevel userLogLevel);
     void getLoadBoundary(LogLevel userLogLevel);
+    LogLevel getLevelfromBound(int persant);
 
    private:
     Logger& logger;

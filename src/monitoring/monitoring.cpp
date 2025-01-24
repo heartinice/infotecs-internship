@@ -71,7 +71,7 @@ void SystemMonitor::monitorCPU(LogLevel userLogLevel) {
             std::ostringstream oss;
             oss << std::fixed << std::setprecision(2) << cpuLoad;
 
-            logger.saveMessage(" Average CPU Load: " + oss.str() + "%", userLogLevel);
+            logger.saveMessage(" Average CPU Load: " + oss.str() + "%", getLevelfromBound(cpuLoad));
 
         } else {
             logger.saveMessage(" CPU Load calculation error: deltaTotal <= 0", LogLevel::error);
@@ -129,7 +129,7 @@ void SystemMonitor::monitorMemory(LogLevel userLogLevel) {
         std::ostringstream message;
         message << " Memory Usage: " << usedGB << " GB used of " << totalGB << " GB total (" << usagePercent << "%)";
 
-        logger.saveMessage(message.str(), LogLevel::info);
+        logger.saveMessage(message.str(), getLevelfromBound(usagePercent));
     } else {
         logger.saveMessage(" Failed to parse memory info", LogLevel::error);
     }
@@ -163,7 +163,7 @@ void SystemMonitor::monitorDisk(LogLevel userLogLevel) {
     oss << " Disk usage for root filesystem: Total space = " << totalGB << " GB, Used = " << usedGB << " GB ("
         << usedPercent << "%)";
 
-    logger.saveMessage(oss.str(), LogLevel::info);
+    logger.saveMessage(oss.str(), getLevelfromBound(usedPercent));
 }
 
 void SystemMonitor::getLoadBoundary(LogLevel userLogLevel) {
@@ -176,6 +176,17 @@ void SystemMonitor::getLoadBoundary(LogLevel userLogLevel) {
     } else if (userLogLevel == LogLevel::error) {
         loadmin = 81;
         loadmax = 100;
+    }
+}
+LogLevel SystemMonitor::getLevelfromBound(int persant){
+    if (persant <= 50){
+        return LogLevel::info;
+    }
+    else if (persant <= 80){
+        return LogLevel::warning;
+    }
+    else{
+        return LogLevel::error;
     }
 }
 
